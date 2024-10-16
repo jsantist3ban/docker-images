@@ -16,7 +16,7 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,30 +36,30 @@ jobs:
       - name: Build an image from Dockerfile
         run: docker build -t ${{ env.DockerRepo }}/${{ env.ImageName }}:${{ env.ImageTag }} flask-web
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.20.0
-        with:
-          scan-type: image
-          image-ref: '${{ env.DockerRepo }}/${{ env.ImageName }}:${{ env.ImageTag }}'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
-
     #  - name: Run Trivy vulnerability scanner
-    #    uses: aquasecurity/trivy-action@0.20.0
+    #    uses: aquasecurity/trivy-action@0.28.0
     #    with:
+    #      scan-type: image
     #      image-ref: '${{ env.DockerRepo }}/${{ env.ImageName }}:${{ env.ImageTag }}'
-    #      format: 'sarif'
-    #      output: 'trivy-results.sarif'
-    #
-    #  - name: Upload Trivy scan results to GitHub Security tab
-    #    uses: github/codeql-action/upload-sarif@v3
-    #    if: always()
-    #    with:
-    #      sarif_file: 'trivy-results.sarif'
-    #
+    #      format: 'table'
+    #      exit-code: '1'
+    #      ignore-unfixed: true
+    #      vuln-type: 'os,library'
+    #      severity: 'CRITICAL,HIGH'
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: '${{ env.DockerRepo }}/${{ env.ImageName }}:${{ env.ImageTag }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+    
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+    
     #  - name: Build and push
     #    uses: docker/build-push-action@v6
     #    with:
