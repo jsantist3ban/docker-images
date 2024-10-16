@@ -8,6 +8,9 @@ on:
       - main
   pull_request:
 
+permissions:
+  security-events: write
+
 env:
   DockerRepo: 'jsantisteban'
   ImageName: 'flask-web'
