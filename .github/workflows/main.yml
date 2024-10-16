@@ -8,9 +8,7 @@ on:
       - main
   pull_request:
 
-permissions:
-  contents: read
-  security-events: write
+permissions: write-all
 
 env:
   DockerRepo: 'jsantisteban'
@@ -56,7 +54,10 @@ jobs:
         with:
           image-ref: '${{ env.DockerRepo }}/${{ env.ImageName }}:${{ env.ImageTag }}'
           format: 'sarif'
+          vuln-type: 'os,library'
           output: 'trivy-results.sarif'
+          severity: 'HIGH,CRITICAL'
+          ignore-unfixed: true
     
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
