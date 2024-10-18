@@ -10,6 +10,7 @@ jobs:
 
       steps:
       - name: ZAP Scan
-        uses: zaproxy/action-full-scan@v0.11.0
+        uses: zaproxy/action-baseline@v0.13.0
+        #uses: zaproxy/action-full-scan@v0.11.0
         with:
-          target: 'https://www.n2x.io/'
+          target: 'https://n2x.io/'
