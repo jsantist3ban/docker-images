@@ -3,6 +3,9 @@ name: ZAP Scan
 on:
   push:
 
+permissions: 
+  issues: write
+
 jobs:
     zap_scan:
       runs-on: ubuntu-latest
