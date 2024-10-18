@@ -1,0 +1,13 @@
+on:
+  push:
+
+jobs:
+    zap_scan:
+      runs-on: ubuntu-latest
+      name: Scan ZAP website
+
+      steps:
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.11.0
+        with:
+          target: 'https://www.n2x.io/'
